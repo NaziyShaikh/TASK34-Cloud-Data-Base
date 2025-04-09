@@ -10,8 +10,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+require('dotenv').config();
+
 // MongoDB connection
-const uri = 'mongodb+srv://rabnaz1234567:9CM1vh9QQBwKDOKD@naziya.fixbe.mongodb.net/?retryWrites=true&w=majority&appName=naziya';
+const uri = process.env.MONGODB_URI; // Use the environment variable
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
