@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -10,10 +11,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-require('dotenv').config();
-
 // MongoDB connection
-const uri = process.env.MONGODB_URI; // Use the environment variable
+const uri = process.env.MONGODB_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
@@ -26,20 +25,27 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', UserSchema);
 
-// Endpoint to save user data
-app.post('/api/users', (req, res) => {
-    const newUser = new User(req.body);
-    newUser.save()
-        .then(user => res.status(201).json(user))
-        .catch(err => res.status(400).json('Error: ' + err));
+// Routes
+app.post('/api/users', async (req, res) => {
+    try {
+        const newUser = new User(req.body);
+        const savedUser = await newUser.save();
+        res.status(201).json(savedUser);
+    } catch (err) {
+        res.status(400).json('Error: ' + err);
+    }
 });
-// Start the server
+
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (err) {
+        res.status(500).json('Error: ' + err);
+    }
+});
+
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-});
-// Endpoint to get all users
-app.get('/api/users', (req, res) => {
-    User.find()
-        .then(users => res.json(users))
-        .catch(err => res.status(400).json('Error: ' + err));
 });
