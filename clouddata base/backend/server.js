@@ -14,6 +14,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Welcome to Cloud Data Base API',
+        endpoints: {
+            users: '/api/users',
+            register: '/api/users'
+        }
+    });
+});
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
