@@ -5,40 +5,33 @@ import UsersList from './UsersList';
 function App() {
   const [users, setUsers] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL;
 
-  // Define functions first
-  const fetchUsers = async () => {
-    try {
-      const response = await fetch('https://task34-cloud-data-base-3.onrender.com/api/users');
-      const data = await response.json();
-      setUsers(data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-  };
+ 
+ const addUser = async (userData) => {
+   try {
+     const response = await fetch(`${API_URL}/api/users`, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(userData),
+     });
+ 
+     if (!response.ok) {
+       throw new Error('Failed to add user');
+     }
+ 
+     const newUser = await response.json();
+     setUsers(prevUsers => [...prevUsers, newUser]);
+     fetchUsers();
+   } catch (error) {
+     console.error('Error adding user:', error);
+     alert('Failed to add user. Please try again.');
+   }
+ };
 
-  const addUser = async (userData) => {
-    try {
-      const response = await fetch('https://task34-cloud-data-base-3.onrender.com/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to add user');
-      }
-
-      const newUser = await response.json();
-      setUsers(prevUsers => [...prevUsers, newUser]);
-      fetchUsers();
-    } catch (error) {
-      console.error('Error adding user:', error);
-      alert('Failed to add user. Please try again.');
-    }
-  };
 
 const deleteUser = async (userId) => {
   if (!window.confirm('Are you sure you want to delete this user?')) {
@@ -46,16 +39,14 @@ const deleteUser = async (userId) => {
   }
 
   try {
-    const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+    const response = await fetch(`${API_URL}/api/users/${userId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    // Get the response text first
     const text = await response.text();
-    
     let data;
     try {
       data = JSON.parse(text);
@@ -67,14 +58,23 @@ const deleteUser = async (userId) => {
       throw new Error(data.message || `HTTP Error: ${response.status}`);
     }
 
-    // Update local state and refresh from server
     setUsers(prevUsers => prevUsers.filter(user => user._id !== userId));
-    fetchUsers(); // Refresh from server to ensure consistency
+    fetchUsers();
 
     alert('User deleted successfully');
   } catch (error) {
     console.error('Error details:', error);
     alert(`Failed to delete user: ${error.message}`);
+  }
+};
+
+const fetchUsers = async () => {
+  try {
+    const response = await fetch(`${API_URL}/api/users`);
+    const data = await response.json();
+    setUsers(data);
+  } catch (error) {
+    console.error('Error fetching users:', error);
   }
 };
   // Use useEffect after defining functions
