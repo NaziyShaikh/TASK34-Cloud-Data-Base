@@ -10,7 +10,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.17.1",
-    "mongoose": "^6.12.0"  
+    "mongoose": "^6.12.0"
   },
   "engines": {
     "node": "18.x"
