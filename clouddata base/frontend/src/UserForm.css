@@ -1,56 +1,197 @@
 .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+    max-width: 450px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.form-container:hover {
+    transform: translateY(-5px);
+}
+
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 123, 255, 0.1), rgba(0, 206, 209, 0.1));
+    z-index: -1;
 }
 
 .form-container h2 {
     text-align: center;
-    color: #333;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .form-container input {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+
+.form-container input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
 .form-container button {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    padding: 12px;
+    background: linear-gradient(135deg, #007bff 0%, #00c6ff 100%);
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
 }
-h1 {
-    text-align: center; /* Center the heading */
-    color: #333; /* Optional: Change the color */
-    margin-bottom: 20px; /* Space below the heading */
-}
+
 .form-container button:hover {
-    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    background: linear-gradient(135deg, #0069d9 0%, #00b8ff 100%);
 }
+
+.form-container button:active {
+    transform: translateY(0);
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 4px;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.form-container .error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    text-align: left;
+}
+
+h1 {
+    text-align: center; 
+    color: #333; 
+    margin-bottom: 20px; 
+}
+
 .user-lists {
     display: flex;
-    justify-content: space-between; /* Space between the lists */
+    justify-content: space-between; 
     margin-top: 20px;
 }
 
 .user-lists div {
-    flex: 1; /* Each list takes equal space */
-    margin: 0 10px; /* Add some margin between the lists */
+    flex: 1; 
+    margin: 0 10px; 
 }
 
 .user-lists h3 {
-    text-align: center; /* Center the headings */
+    text-align: center; 
+}
+
+.toast-message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #007bff 0%, #00c6ff 100%);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.toast-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-message.hide {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.toast-message i {
+    font-size: 1.2rem;
+}
+
+.toast-message .close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.toast-message .close-btn:hover {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.toast-message.success {
+    background: linear-gradient(135deg, #28a745 0%, #40c96b 100%);
+}
+
+.toast-message.error {
+    background: linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%);
+}
+
+.toast-message.info {
+    background: linear-gradient(135deg, #17a2b8 0%, #66c3d6 100%);
+}
+
+.toast-message.warning {
+    background: linear-gradient(135deg, #ffc107 0%, #ffd733 100%);
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .form-container h2 {
+        font-size: 1.5rem;
+    }
 }

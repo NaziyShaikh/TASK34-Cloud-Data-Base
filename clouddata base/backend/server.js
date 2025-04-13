@@ -7,7 +7,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Add this at the top of your server.js, after app.use(cors())
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -50,7 +49,7 @@ mongoose.connect(uri, {
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log('MongoDB connection error:', err));
 
-// Define a schema and model
+
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
@@ -72,7 +71,7 @@ app.delete('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
     
-    // First check if user exists
+    // First i want to ckeck then it will say message
     const user = await User.findById(id);
     if (!user) {
       return res.status(404).json({ 
@@ -81,7 +80,8 @@ app.delete('/api/users/:id', async (req, res) => {
       });
     }
 
-    // Delete the user
+    // in the task it si not define delete button to 
+    //add but i had to add that when user register his personal infoormation showing that way i added 
     await User.findByIdAndDelete(id);
     console.log(`User deleted successfully: ${id}`);
 
@@ -109,7 +109,7 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-// Start server
+// Starting server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

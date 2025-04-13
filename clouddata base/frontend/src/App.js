@@ -77,7 +77,7 @@ function App() {
   // Fetch users when component mounts
   useEffect(() => {
     fetchUsers();
-  }, []);
+  });
 
   return (
     <div className="app">
